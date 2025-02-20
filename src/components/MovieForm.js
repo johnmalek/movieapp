@@ -11,7 +11,7 @@ function MovieForm({ onSubmit }){
     }
 
     return (
-        <form onsubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <input type="text"
             placeholder="Enter movie name"
             value={name}
