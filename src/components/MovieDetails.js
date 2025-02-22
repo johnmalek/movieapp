@@ -1,16 +1,17 @@
-import React from 'react';
+import React from "react";
 
-function MovieDetails({ movieData }) {
-    if(!movieData) return null;
+function MovieDetails({ movie }) {
+    if (!movie) return null;
 
-    const [title, year, description, image] = movieData;
-
-    return (
+    return(
         <div>
-            <h1>{title}</h1>
-            <p>{year}</p>
-            <p>{description}</p>
-            <img src={image} alt={title} />
+            <h2>{movie.title}</h2>
+            {movie.poster_path && (
+                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}></img>
+            )}
+            <p><strong>Release Date: </strong>{movie.release_date}</p>
+            <p><strong>Description: </strong>{movie.overview}</p>
+            
         </div>
     );
 }

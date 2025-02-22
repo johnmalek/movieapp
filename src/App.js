@@ -1,18 +1,21 @@
 
 import { useState } from 'react';
 import './App.css';
-import MovieDetails from './components/MovieDetails';
+import MovieDetails from './components/MovieList';
 import MovieForm from './components/MovieForm';
+import MovieList from './components/MovieList';
 
 function App() {
-  const [movieData, setMovieData] = useState(null);
+  const [movieData, setMovieData] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [error, setError] = useState('');
 
-  const apiKey = "86172d742f3c19c30a582a54af799235";
+  const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
   const fetchMovies = async (title) => {
     setError('');
     setMovieData(null);
+    setSelectedMovie(null);
 
     try{
       const response = await fetch(
@@ -30,6 +33,25 @@ function App() {
     }
   }
 
+  const fetchMovieDetails = async (movieId) => {
+    try{
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
+      );
+      const data = await response.json();
+      setSelectedMovie(data)
+    }catch{
+      setError("Failed to fetch movie details");
+    }
+  };
+
+  const renderContent = () => {
+    if (selectedMovie) {
+      return <MovieDetails movie={selectedMovie} />;
+    }
+    return <MovieList movies={movieData} onSelectMovie={fetchMovieDetails} />;
+  };
+
 
   return (
     <div>
@@ -37,6 +59,8 @@ function App() {
       <MovieForm onSubmit={fetchMovies} />
 
       {error && <p>{error}</p>}
+
+      {renderContent()}
 
       <MovieDetails movieData={movieData}/>
     </div>

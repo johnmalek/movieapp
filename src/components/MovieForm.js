@@ -6,7 +6,7 @@ function MovieForm({ onSubmit }){
     const handleSubmit = (e) => {
         e.preventDefault();
         if(!name.trim()) return null;
-        onsubmit(name);
+        onSubmit(name);
         setName('');
     }
 
