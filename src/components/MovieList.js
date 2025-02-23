@@ -1,18 +1,17 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
 function MovieList({ movies }) {
-    if (!movies || movies.length === 0) {
-        return null;
-      }
+    if(!movies) return null;
     return (
         <div>
             <ul>
                 {movies.map((movie) => (
-                    <li key={movie.id}>
-                        <Link to={`/movie/${movie.id}`}>
-                            {movie.title} - ({movie.release_date ? movie.release_date.split("-")[0] : "Unknown Year"})
-                        </Link>
-                    </li>
+                <li key={movie.id || Math.random()}>
+                    <Link to={`/movie/${movie.id}`}>
+                        {movie.title} ({movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"})
+                    </Link>
+                </li>
                 ))}
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, React, useState } from "react";
+import  React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function MovieDetails() {
@@ -6,10 +6,10 @@ function MovieDetails() {
     const [movie, setMovie] = useState(null);
     const [error, setError] = useState(null);
 
-    const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
-    const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
-
     useEffect(() => {
+
+        const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
+
         const fetchMovieDetails = async () => {
             try{
                 const response = await fetch(
@@ -18,7 +18,7 @@ function MovieDetails() {
                 const data = await response.json();
 
                 if (response.ok){
-                    setMovie = data;
+                    setMovie(data);
                 } else {
                     setError("Movie Details not found");
                 }
@@ -40,11 +40,10 @@ function MovieDetails() {
 
     return(
         <div>
-            <h2>{movie.title}</h2>
-            {movie.poster_path && <img src={`${imageBaseUrl}${movie.poster_path}`} alt={movie.title} />}
-            <p><strong>Release Date: </strong>{movie.release_date}</p>
-            <p><strong>Description: </strong>{movie.overview}</p>
-            
+            <h1>{movie.title}</h1>
+            <p>Release Date: {movie.release_date}</p>
+            <p>{movie.overview}</p>
+            <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
         </div>
     );
 }

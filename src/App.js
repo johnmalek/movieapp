@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MovieDetails from './components/MovieList';
@@ -37,11 +37,15 @@ function App() {
     <Router>
       <div>
         <h1>Movie App</h1>
-        <MovieForm onSubmit={fetchMovies} />
-        {error && <p>{error}</p>}
         <Routes>
-          <Route path='/' element={<MovieList movies={movieData} />} />
-          <Route path='/movie/:id' element={<MovieDetails />} />
+          <Route path="/" element={
+            <>
+              <MovieForm onSubmit={fetchMovies} />
+              {error && <p>{error}</p>}
+              <MovieList movies={movieData} />
+            </>
+          } />
+          <Route path="/movie/:id" element={<MovieDetails />} />
         </Routes>
       </div>
     </Router>
