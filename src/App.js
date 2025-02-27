@@ -1,15 +1,11 @@
-
-import React, { useState } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MovieDetails from './components/MovieList';
-import MovieForm from './components/MovieForm';
-import MovieList from './components/MovieList';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import MovieList from "./components/MovieList";
+import MovieDetails from "./components/MovieDetails";
+import MovieForm from "./components/MovieForm";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-
   const apiKey = process.env.REACT_APP_MOVIE_API_KEY;
 
   const fetchMovies = async (title) => {
@@ -22,17 +18,6 @@ function App() {
     }
   };
 
-  const fetchMovieDetails = async (id) => {
-    try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`);
-      const data = await response.json();
-      setSelectedMovie(data);
-    } catch (error) {
-      console.error("Error fetching movie details:", error);
-    }
-  };
-
-
   return (
     <Router>
       <Routes>
@@ -42,11 +27,11 @@ function App() {
             <>
               <h1>Movie App</h1>
               <MovieForm onSubmit={fetchMovies} />
-              <MovieList movies={movies} onSelectMovie={fetchMovieDetails} />
+              <MovieList movies={movies} />
             </>
           }
         />
-        <Route path="/movie/:id" element={<MovieDetails movie={selectedMovie} />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
       </Routes>
     </Router>
   );
